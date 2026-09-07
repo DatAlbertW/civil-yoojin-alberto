@@ -1,84 +1,202 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f2eb">
 
-  <title>Yoojin & Alberto · 12.12.2026</title>
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="theme-color"
+    content="#f6f2eb"
+  >
+
+
+  <title>
+    Yoojin & Alberto · 12.12.2026
+  </title>
+
 
   <meta
     name="description"
     content="Boda de Yoojin y Alberto · 12 de diciembre de 2026 · Ciudad de México"
   >
 
-  <meta property="og:title" content="Yoojin & Alberto · 12.12.2026">
-  <meta property="og:description" content="Confirma tu asistencia">
-  <meta property="og:image" content="assets/invitation.png">
 
-  <link rel="icon" type="image/png" href="assets/favicon-bear.png">
+  <meta
+    property="og:title"
+    content="Yoojin & Alberto · 12.12.2026"
+  >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta
+    property="og:description"
+    content="Confirma tu asistencia"
+  >
+
+  <meta
+    property="og:image"
+    content="assets/invitation.png"
+  >
+
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/favicon-bear.png"
+  >
+
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
 
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Noto+Serif+KR:wght@400;500;600&family=Parisienne&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="styles.css">
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+
 </head>
+
 
 <body>
 
+
   <main class="page-shell">
 
-    <!-- HEADER -->
+
+    <!-- ======================================
+         LANGUAGE
+         ====================================== -->
+
     <header class="site-header">
 
       <div class="language-control">
-        <label for="languageSelect" data-t="languageLabel">
+
+        <label
+          for="languageSelect"
+          data-t="languageLabel"
+        >
           Idioma
         </label>
 
+
         <div class="select-wrapper">
-          <select id="languageSelect" aria-label="Idioma">
-            <option value="es">Español</option>
-            <option value="en">English</option>
-            <option value="ko">한국어</option>
+
+          <select
+            id="languageSelect"
+            aria-label="Idioma"
+          >
+
+            <option value="es">
+              Español
+            </option>
+
+            <option value="en">
+              English
+            </option>
+
+            <option value="ko">
+              한국어
+            </option>
+
           </select>
+
         </div>
+
       </div>
 
     </header>
 
 
-    <!-- INVITACIÓN PRINCIPAL -->
-    <section class="invitation-section">
+
+    <!-- ======================================
+         INVITATION
+         ====================================== -->
+
+    <section
+      class="invitation-section"
+      aria-label="Invitación principal"
+    >
+
 
       <div class="invitation-frame">
 
-        <img
-          class="invite-image"
-          src="assets/invitation.png"
-          alt="Invitación de boda de Yoojin y Alberto"
-        >
 
         <!--
-          Estas dos capas cubren el texto impreso de la imagen
-          y lo reemplazan por texto HTML traducible.
+          IMPORTANT:
+
+          The translated text is positioned
+          relative to invitation-art.
+
+          invitation-art has exactly the same
+          dimensions as invitation.png.
+
+          Therefore its position stays consistent
+          on desktop, mobile and tablet.
         -->
 
-        <div class="invite-live-line invite-live-ceremony">
-          <span data-t="inviteCeremony">
-            Inicio de la Ceremonia: 12:30
-          </span>
-        </div>
+        <div class="invitation-art">
 
-        <div class="invite-live-line invite-live-city">
-          <span data-t="inviteCity">
-            Ciudad de México
-          </span>
+
+          <img
+            class="invite-image"
+            src="assets/invitation.png"
+            alt="Invitación de boda de Yoojin y Alberto"
+          >
+
+
+
+          <!-- Ceremony -->
+
+          <div
+            class="
+              invite-live-line
+              invite-live-ceremony
+            "
+          >
+
+            <span data-t="inviteCeremony">
+              Inicio de la Ceremonia: 12:30
+            </span>
+
+          </div>
+
+
+
+          <!-- City -->
+
+          <div
+            class="
+              invite-live-line
+              invite-live-city
+            "
+          >
+
+            <span data-t="inviteCity">
+              Ciudad de México
+            </span>
+
+          </div>
+
+
         </div>
 
       </div>
@@ -86,17 +204,24 @@
     </section>
 
 
-    <!-- RSVP -->
+
+    <!-- ======================================
+         RSVP
+         ====================================== -->
+
     <section
       class="rsvp-panel"
       aria-labelledby="rsvp-title"
     >
 
+
       <div class="panel-inner">
+
 
         <p class="panel-kicker">
           RSVP
         </p>
+
 
         <h2
           id="rsvp-title"
@@ -106,6 +231,7 @@
           Confirma tu asistencia
         </h2>
 
+
         <p
           class="panel-sub"
           data-t="sub"
@@ -114,17 +240,26 @@
         </p>
 
 
-        <form id="rsvp" novalidate>
+
+        <form
+          id="rsvp"
+          novalidate
+        >
 
 
-          <!-- ASISTENCIA -->
+          <!-- ==================================
+               ATTENDANCE
+               ================================== -->
+
           <div
             class="choice"
             role="radiogroup"
             aria-label="Asistencia"
           >
 
+
             <label>
+
               <input
                 type="radio"
                 name="attending"
@@ -135,9 +270,13 @@
               <span data-t="yes">
                 Sí, ahí estaré
               </span>
+
             </label>
 
+
+
             <label>
+
               <input
                 type="radio"
                 name="attending"
@@ -147,20 +286,30 @@
               <span data-t="no">
                 No podré ir
               </span>
+
             </label>
+
 
           </div>
 
 
-          <!-- NOMBRE -->
+
+          <!-- ==================================
+               NAME
+               ================================== -->
+
           <div class="field">
 
             <label for="name">
+
               <span data-t="lName">
                 Nombre completo
               </span>
+
               <b>*</b>
+
             </label>
+
 
             <input
               type="text"
@@ -173,15 +322,23 @@
           </div>
 
 
-          <!-- TELÉFONO -->
+
+          <!-- ==================================
+               PHONE
+               ================================== -->
+
           <div class="field">
 
             <label for="phone">
+
               <span data-t="lPhone">
                 Teléfono
               </span>
+
               <b>*</b>
+
             </label>
+
 
             <input
               type="tel"
@@ -191,6 +348,7 @@
               inputmode="tel"
               maxlength="50"
             >
+
 
             <p
               class="hint"
@@ -202,17 +360,24 @@
           </div>
 
 
-          <!-- PERSONAS -->
+
+          <!-- ==================================
+               NUMBER OF GUESTS
+               ================================== -->
+
           <div
             class="field"
             data-only="yes"
           >
 
+
             <label data-t="lGuests">
               Personas, incluyéndote
             </label>
 
+
             <div class="stepper">
+
 
               <button
                 type="button"
@@ -223,12 +388,14 @@
                 −
               </button>
 
+
               <output
                 id="guests"
                 aria-live="polite"
               >
                 1
               </output>
+
 
               <button
                 type="button"
@@ -238,7 +405,9 @@
                 +
               </button>
 
+
             </div>
+
 
             <p
               class="hint"
@@ -247,15 +416,21 @@
               Máximo 2 personas por invitación.
             </p>
 
+
           </div>
 
 
-          <!-- SEGUNDA PERSONA -->
+
+          <!-- ==================================
+               SECOND GUEST
+               ================================== -->
+
           <div
             class="field"
             id="f-name2"
             hidden
           >
+
 
             <label for="name2">
 
@@ -267,21 +442,29 @@
 
             </label>
 
+
             <input
               type="text"
               id="name2"
               name="name2"
+              autocomplete="off"
               maxlength="120"
             >
+
 
           </div>
 
 
-          <!-- DIETA -->
+
+          <!-- ==================================
+               DIET
+               ================================== -->
+
           <div
             class="field"
             data-only="yes"
           >
+
 
             <label
               for="diet"
@@ -290,10 +473,12 @@
               Restricciones alimentarias
             </label>
 
+
             <select
               id="diet"
               name="diet"
             ></select>
+
 
 
             <div
@@ -313,10 +498,12 @@
             </div>
 
 
+
             <div
               id="f-who"
               hidden
             >
+
 
               <p
                 class="hint who-title"
@@ -325,51 +512,74 @@
                 ¿Para quién aplica?
               </p>
 
+
               <div class="who">
 
+
                 <label>
+
                   <input
                     type="radio"
                     name="who"
                     value="p1"
                   >
+
                   <span id="w1">
                     Persona 1
                   </span>
+
                 </label>
 
+
+
                 <label>
+
                   <input
                     type="radio"
                     name="who"
                     value="p2"
                   >
+
                   <span id="w2">
                     Persona 2
                   </span>
+
                 </label>
 
+
+
                 <label>
+
                   <input
                     type="radio"
                     name="who"
                     value="both"
                     checked
                   >
+
                   <span data-t="wBoth">
                     Ambos
                   </span>
+
                 </label>
+
 
               </div>
 
+
             </div>
+
 
           </div>
 
 
-          <!-- MENSAJE -->
+
+          <!-- ==================================
+               MESSAGE
+               ================================== -->
+
           <div class="field">
+
 
             <label
               for="note"
@@ -378,6 +588,7 @@
               Un mensaje para nosotros
             </label>
 
+
             <textarea
               id="note"
               name="note"
@@ -385,10 +596,15 @@
               data-ph="phNote"
             ></textarea>
 
+
           </div>
 
 
-          <!-- ENVIAR -->
+
+          <!-- ==================================
+               SUBMIT
+               ================================== -->
+
           <button
             type="submit"
             class="send"
@@ -405,56 +621,78 @@
             hidden
           ></p>
 
+
         </form>
 
 
-        <!-- SUCCESS -->
+
+        <!-- ==================================
+             SUCCESS
+             ================================== -->
+
         <div
           class="done"
           id="done"
           hidden
         >
 
+
           <div class="done-symbol">
             ♥
           </div>
 
+
           <h3 data-t="doneTitle">
             ¡Gracias!
           </h3>
+
 
           <p data-t="doneBody">
             Tu respuesta quedó registrada.
             Nos hace mucha ilusión celebrar contigo.
           </p>
 
+
         </div>
+
 
       </div>
 
     </section>
 
 
-    <!-- FOOTER -->
+
+    <!-- ======================================
+         FOOTER
+         ====================================== -->
+
     <footer class="site-footer">
 
+
       <div class="footer-mark">
+
         <img
           src="assets/favicon-bear.png"
           alt=""
         >
+
       </div>
+
 
       <p data-t="footer">
         Que la vida nos siga uniendo en bellos caminos.
       </p>
 
+
     </footer>
+
 
   </main>
 
 
   <script src="rsvp.js"></script>
 
+
 </body>
+
 </html>
