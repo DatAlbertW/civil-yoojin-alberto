@@ -838,6 +838,26 @@ function showError(
 
 }
 
+/* =========================================
+   ALREADY SUBMITTED ON THIS BROWSER
+   ========================================= */
+
+function showThankYou(){
+
+  form.hidden = true;
+
+  $("done").hidden = false;
+
+}
+
+
+if(
+  localStorage.getItem("weddingRsvpSubmitted") === "true"
+){
+
+  showThankYou();
+
+}
 
 /* =========================================
    SUBMIT
