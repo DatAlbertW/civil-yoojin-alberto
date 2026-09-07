@@ -54,7 +54,11 @@ button,input,select,textarea{font:inherit}
   margin-bottom:24px;
 }
 
-.brand-block{max-width:680px}
+.brand-block{
+  width:100%;
+  max-width:none;
+  text-align:center;
+}
 .eyebrow{
   margin:0 0 8px;
   color:var(--ink-soft);
