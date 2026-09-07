@@ -1,4 +1,4 @@
-const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxP6gAocnNF-RetMey9yZc5m1ATroWAAX8eL-xQRrRrNDp7CjlOtqstQYbt_1FNdHemzA/exec";
 const MAX_GUESTS = 2;
 
 const DIETS = [
@@ -10,7 +10,6 @@ const DIETS = [
   {v:"nuts", es:"Alergia a frutos secos", en:"Nut allergy", ko:"견과류 알레르기"},
   {v:"seafood", es:"Alergia a mariscos", en:"Shellfish allergy", ko:"갑각류 알레르기"},
   {v:"pork", es:"Sin cerdo", en:"No pork", ko:"돼지고기 제외"},
-  {v:"halal", es:"Halal", en:"Halal", ko:"할랄"},
   {v:"kosher", es:"Kosher", en:"Kosher", ko:"코셔"},
   {v:"spicy", es:"Sin picante", en:"No spicy food", ko:"매운 음식 제외"},
   {v:"other", es:"Otra (especificar)", en:"Other (specify)", ko:"기타 (직접 입력)"}
