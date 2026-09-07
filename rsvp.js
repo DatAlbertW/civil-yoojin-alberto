@@ -1,5 +1,5 @@
 const SCRIPT_URL =
-  "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+  "https://script.google.com/macros/s/AKfycbxP6gAocnNF-RetMey9yZc5m1ATroWAAX8eL-xQRrRrNDp7CjlOtqstQYbt_1FNdHemzA/exec";
 
 const MAX_GUESTS = 2;
 
