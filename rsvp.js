@@ -176,7 +176,7 @@ const T = {
       "Escribe el nombre de la segunda persona.",
 
     errPhone:
-      "Escribe tu teléfono.",
+      "Escribe tu teléfono con código de país.",
 
     errOther:
       "Cuéntanos cuál es la restricción.",
@@ -273,7 +273,7 @@ const T = {
       "Please enter the second person's name.",
 
     errPhone:
-      "Please enter your phone number.",
+      "Please enter your phone number with country code.",
 
     errOther:
       "Please tell us what the restriction is.",
@@ -370,7 +370,7 @@ const T = {
       "동반하시는 분의 성함을 입력해 주세요.",
 
     errPhone:
-      "연락처를 입력해 주세요.",
+      "국가번호를 포함한 연락처를 입력해 주세요.",
 
     errOther:
       "어떤 제한인지 알려주세요.",
@@ -395,7 +395,7 @@ const T = {
 
 const $ =
   id =>
-  document.getElementById(id);
+    document.getElementById(id);
 
 
 const form =
@@ -428,6 +428,96 @@ const plus =
 
 const languageSelect =
   $("languageSelect");
+
+
+/* =========================================
+   BROWSER / DEVICE ID
+   ========================================= */
+
+/*
+  This is a random identifier generated
+  locally.
+
+  It is NOT device fingerprinting.
+*/
+
+function createBrowserId(){
+
+  if(
+    window.crypto &&
+    typeof window.crypto.randomUUID === "function"
+  ){
+
+    return window.crypto.randomUUID();
+
+  }
+
+
+  if(
+    window.crypto &&
+    typeof window.crypto.getRandomValues === "function"
+  ){
+
+    const values =
+      new Uint32Array(4);
+
+
+    window.crypto.getRandomValues(
+      values
+    );
+
+
+    return Array
+      .from(values)
+      .map(
+        value =>
+          value.toString(16)
+      )
+      .join("-");
+
+  }
+
+
+  return (
+    Date.now().toString(36) +
+    "-" +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+
+}
+
+
+function getBrowserId(){
+
+  let browserId =
+    localStorage.getItem(
+      "weddingBrowserId"
+    );
+
+
+  if(!browserId){
+
+    browserId =
+      createBrowserId();
+
+
+    localStorage.setItem(
+      "weddingBrowserId",
+      browserId
+    );
+
+  }
+
+
+  return browserId;
+
+}
+
+
+const BROWSER_ID =
+  getBrowserId();
 
 
 /* =========================================
@@ -491,6 +581,10 @@ let lang =
 
 let count =
   1;
+
+
+let isSubmitting =
+  false;
 
 
 /* =========================================
@@ -722,8 +816,10 @@ function toggleFields(){
     )
     .forEach(
       el=>{
+
         el.hidden =
           !going;
+
       }
     );
 
@@ -830,6 +926,10 @@ function showError(
     T[lang].send;
 
 
+  isSubmitting =
+    false;
+
+
   if(focusEl){
 
     focusEl.focus();
@@ -838,26 +938,37 @@ function showError(
 
 }
 
+
 /* =========================================
-   ALREADY SUBMITTED ON THIS BROWSER
+   THANK YOU
    ========================================= */
 
 function showThankYou(){
 
-  form.hidden = true;
+  form.hidden =
+    true;
 
-  $("done").hidden = false;
+
+  $("done").hidden =
+    false;
 
 }
 
 
+/* =========================================
+   ALREADY SUBMITTED ON THIS BROWSER
+   ========================================= */
+
 if(
-  localStorage.getItem("weddingRsvpSubmitted") === "true"
+  localStorage.getItem(
+    "weddingRsvpSubmitted"
+  ) === "true"
 ){
 
   showThankYou();
 
 }
+
 
 /* =========================================
    SUBMIT
@@ -868,6 +979,18 @@ form.addEventListener(
   async event=>{
 
     event.preventDefault();
+
+
+    /*
+      Prevent repeated submit events
+      while one request is being sent.
+    */
+
+    if(isSubmitting){
+
+      return;
+
+    }
 
 
     err.hidden =
@@ -900,6 +1023,10 @@ form.addEventListener(
         .trim();
 
 
+    const phoneDigits =
+      phone.replace(/\D/g, "");
+
+
     const going =
       form.attending.value ===
       "yes";
@@ -920,6 +1047,10 @@ form.addEventListener(
         : "";
 
 
+    /* =====================================
+       VALIDATION
+       ===================================== */
+
     if(!name){
 
       return showError(
@@ -930,7 +1061,17 @@ form.addEventListener(
     }
 
 
-    if(!phone){
+    /*
+      Basic validation.
+
+      International telephone numbers
+      normally contain at least 8 digits.
+    */
+
+    if(
+      !phone ||
+      phoneDigits.length < 8
+    ){
 
       return showError(
         T[lang].errPhone,
@@ -953,7 +1094,9 @@ form.addEventListener(
     }
 
 
-    /* Diet */
+    /* =====================================
+       DIET
+       ===================================== */
 
     let dietLabel =
       "";
@@ -968,8 +1111,8 @@ form.addEventListener(
       const diet =
         DIETS.find(
           item =>
-          item.v ===
-          dietSel.value
+            item.v ===
+            dietSel.value
         );
 
 
@@ -999,7 +1142,12 @@ form.addEventListener(
 
       }
 
-      else{
+      else if(diet){
+
+        /*
+          Save a standardized value
+          regardless of interface language.
+        */
 
         dietLabel =
           diet.es;
@@ -1009,7 +1157,9 @@ form.addEventListener(
     }
 
 
-    /* Applies to */
+    /* =====================================
+       APPLIES TO
+       ===================================== */
 
     let appliesTo =
       "";
@@ -1048,6 +1198,10 @@ form.addEventListener(
     }
 
 
+    /* =====================================
+       PAYLOAD
+       ===================================== */
+
     const payload = {
 
       name,
@@ -1081,9 +1235,24 @@ form.addEventListener(
           .value
           .trim(),
 
-      lang
+      lang,
+
+      /*
+        Random identifier for this browser.
+      */
+
+      browserId:
+        BROWSER_ID
 
     };
+
+
+    /* =====================================
+       LOCK FRONTEND
+       ===================================== */
+
+    isSubmitting =
+      true;
 
 
     send.disabled =
@@ -1120,12 +1289,20 @@ form.addEventListener(
       );
 
 
-      form.hidden =
-        true;
+      /*
+        Whether it was a new response or
+        Apps Script detected a duplicate,
+        the guest sees exactly the same
+        success screen.
+      */
+
+      localStorage.setItem(
+        "weddingRsvpSubmitted",
+        "true"
+      );
 
 
-      $("done").hidden =
-        false;
+      showThankYou();
 
 
       $("done")
@@ -1143,6 +1320,12 @@ form.addEventListener(
     }
 
     catch(error){
+
+      console.error(
+        "RSVP error:",
+        error
+      );
+
 
       showError(
         T[lang].err
