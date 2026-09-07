@@ -342,14 +342,14 @@ textarea{
   z-index:-1;
 
   inset:
-    -4px
-    -10px;
+    -3px
+    -6px;
 
   background:
-    rgba(248,239,222,.97);
+    rgba(248,239,222,1);
 
   filter:
-    blur(.2px);
+    none;
 
 }
 
