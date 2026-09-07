@@ -1,229 +1,7 @@
-/* =========================================
-   Yoojin & Alberto RSVP
-   Netlify + Apps Script protected version
-   ========================================= */
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxP6gAocnNF-RetMey9yZc5m1ATroWAAX8eL-xQRrRrNDp7CjlOtqstQYbt_1FNdHemzA/exec";
 
-
-/*
-  Requests now go through the Netlify Function.
-
-  The Netlify Function then communicates
-  privately with Google Apps Script.
-*/
-
-const RSVP_ENDPOINT =
-  "/api/rsvp";
-
-
-const MAX_GUESTS =
-  2;
-
-
-/* =========================================
-   SAFE LOCAL STORAGE
-   ========================================= */
-
-function storageGet(key){
-
-  try{
-
-    return localStorage.getItem(
-      key
-    );
-
-  }
-
-  catch(error){
-
-    return null;
-
-  }
-
-}
-
-
-function storageSet(
-  key,
-  value
-){
-
-  try{
-
-    localStorage.setItem(
-      key,
-      value
-    );
-
-  }
-
-  catch(error){
-
-    /*
-      Website still works even when
-      localStorage is unavailable.
-    */
-
-  }
-
-}
-
-
-/* =========================================
-   INVITATION IDENTIFIER
-   ========================================= */
-
-/*
-  Example:
-
-  https://civil-yoojin-alberto.netlify.app/?i=A7K4P9
-*/
-
-function getInviteId(){
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  return (
-    params.get("i") ||
-    ""
-  )
-    .trim()
-    .toUpperCase();
-
-}
-
-
-const INVITE_ID =
-  getInviteId();
-
-
-/* =========================================
-   DEVICE IDENTIFIER
-   ========================================= */
-
-/*
-  This is NOT fingerprinting.
-
-  We simply create a random ID and store it
-  in this browser.
-
-  The invitation ID remains the primary
-  protection against duplicate RSVPs.
-*/
-
-function createDeviceId(){
-
-  if(
-    window.crypto &&
-    typeof window.crypto.randomUUID ===
-      "function"
-  ){
-
-    return window.crypto.randomUUID();
-
-  }
-
-
-  if(
-    window.crypto &&
-    typeof window.crypto.getRandomValues ===
-      "function"
-  ){
-
-    const array =
-      new Uint32Array(4);
-
-
-    window.crypto.getRandomValues(
-      array
-    );
-
-
-    return Array
-      .from(array)
-      .map(
-        value =>
-          value.toString(16)
-      )
-      .join("-");
-
-  }
-
-
-  /*
-    Fallback for very old browsers.
-  */
-
-  return (
-    "device-" +
-    Date.now() +
-    "-" +
-    Math.random()
-      .toString(36)
-      .slice(2) +
-    "-" +
-    Math.random()
-      .toString(36)
-      .slice(2)
-  );
-
-}
-
-
-function getDeviceId(){
-
-  let deviceId =
-    storageGet(
-      "weddingDeviceId"
-    );
-
-
-  if(!deviceId){
-
-    deviceId =
-      createDeviceId();
-
-
-    storageSet(
-      "weddingDeviceId",
-      deviceId
-    );
-
-  }
-
-
-  return deviceId;
-
-}
-
-
-const DEVICE_ID =
-  getDeviceId();
-
-
-/* =========================================
-   RSVP STORAGE KEY
-   ========================================= */
-
-/*
-  Saved independently for every invitation.
-
-  This means one browser could legitimately
-  open two different invitation links without
-  one blocking the other.
-*/
-
-function submittedStorageKey(){
-
-  return (
-    "weddingRsvpSubmitted:" +
-    INVITE_ID
-  );
-
-}
+const MAX_GUESTS = 2;
 
 
 /* =========================================
@@ -320,8 +98,7 @@ const T = {
 
   es:{
 
-    languageLabel:
-      "Idioma",
+    languageLabel:"Idioma",
 
     inviteCeremony:
       "Inicio de la Ceremonia: 12:30",
@@ -389,11 +166,8 @@ const T = {
     err:
       "No se pudo enviar. Revisa tu conexión e inténtalo otra vez.",
 
-    errInvite:
-      "Este enlace de invitación no es válido.",
-
-    errInviteMissing:
-      "Esta invitación necesita un enlace personalizado para confirmar asistencia.",
+    errConfig:
+      "Primero configura la URL de Apps Script.",
 
     errName:
       "Escribe tu nombre.",
@@ -421,8 +195,7 @@ const T = {
 
   en:{
 
-    languageLabel:
-      "Language",
+    languageLabel:"Language",
 
     inviteCeremony:
       "Ceremony begins: 12:30",
@@ -490,11 +263,8 @@ const T = {
     err:
       "Your RSVP could not be sent. Check your connection and try again.",
 
-    errInvite:
-      "This invitation link is not valid.",
-
-    errInviteMissing:
-      "A personalized invitation link is required to RSVP.",
+    errConfig:
+      "Configure the Apps Script URL first.",
 
     errName:
       "Please enter your name.",
@@ -522,8 +292,7 @@ const T = {
 
   ko:{
 
-    languageLabel:
-      "언어",
+    languageLabel:"언어",
 
     inviteCeremony:
       "예식 시작: 12:30",
@@ -591,11 +360,8 @@ const T = {
     err:
       "전송에 실패했습니다. 연결을 확인한 뒤 다시 시도해 주세요.",
 
-    errInvite:
-      "유효하지 않은 초대 링크입니다.",
-
-    errInviteMissing:
-      "참석 여부를 보내려면 개인 초대 링크가 필요합니다.",
+    errConfig:
+      "Apps Script URL을 먼저 설정해 주세요.",
 
     errName:
       "성함을 입력해 주세요.",
@@ -629,7 +395,7 @@ const T = {
 
 const $ =
   id =>
-    document.getElementById(id);
+  document.getElementById(id);
 
 
 const form =
@@ -641,9 +407,7 @@ const err =
 
 
 const send =
-  form.querySelector(
-    ".send"
-  );
+  form.querySelector(".send");
 
 
 const dietSel =
@@ -678,16 +442,10 @@ function detectDeviceLanguage(){
 
       ? navigator.languages
 
-      : [
-          navigator.language ||
-          "es"
-        ];
+      : [navigator.language || "es"];
 
 
-  for(
-    const item
-    of languages
-  ){
+  for(const item of languages){
 
     const value =
       item
@@ -714,14 +472,14 @@ function detectDeviceLanguage(){
 
 
 /*
-  Keep manually selected language.
+  If the guest changed language previously,
+  keep their preference.
 
-  Otherwise use the language
-  configured on the guest's device.
+  Otherwise detect the device language.
 */
 
 const savedLang =
-  storageGet(
+  localStorage.getItem(
     "weddingLang"
   );
 
@@ -750,47 +508,34 @@ function paint(){
 
 
   document
-    .querySelectorAll(
-      "[data-t]"
-    )
-    .forEach(
-      el=>{
+    .querySelectorAll("[data-t]")
+    .forEach(el=>{
 
-        const value =
-          T[lang][
-            el.dataset.t
-          ];
+      const value =
+        T[lang][el.dataset.t];
 
 
-        if(
-          value !==
-          undefined
-        ){
+      if(
+        value !== undefined
+      ){
 
-          el.textContent =
-            value;
-
-        }
+        el.textContent =
+          value;
 
       }
-    );
+
+    });
 
 
   document
-    .querySelectorAll(
-      "[data-ph]"
-    )
-    .forEach(
-      el=>{
+    .querySelectorAll("[data-ph]")
+    .forEach(el=>{
 
-        el.placeholder =
-          T[lang][
-            el.dataset.ph
-          ] ||
-          "";
+      el.placeholder =
+        T[lang][el.dataset.ph] ||
+        "";
 
-      }
-    );
+    });
 
 
   /* Diet menu */
@@ -804,29 +549,27 @@ function paint(){
     "";
 
 
-  DIETS.forEach(
-    item=>{
+  DIETS.forEach(item=>{
 
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        item.v;
-
-
-      option.textContent =
-        item[lang];
-
-
-      dietSel.appendChild(
-        option
+    const option =
+      document.createElement(
+        "option"
       );
 
-    }
-  );
+
+    option.value =
+      item.v;
+
+
+    option.textContent =
+      item[lang];
+
+
+    dietSel.appendChild(
+      option
+    );
+
+  });
 
 
   dietSel.value =
@@ -851,7 +594,7 @@ languageSelect
         languageSelect.value;
 
 
-      storageSet(
+      localStorage.setItem(
         "weddingLang",
         lang
       );
@@ -869,7 +612,7 @@ languageSelect
 
 function firstName(value){
 
-  return (
+  return(
     value ||
     ""
   )
@@ -979,10 +722,8 @@ function toggleFields(){
     )
     .forEach(
       el=>{
-
         el.hidden =
           !going;
-
       }
     );
 
@@ -1065,7 +806,7 @@ document
 
 
 /* =========================================
-   NORMAL ERROR
+   ERROR
    ========================================= */
 
 function showError(
@@ -1099,221 +840,6 @@ function showError(
 
 
 /* =========================================
-   FATAL INVITATION ERROR
-   ========================================= */
-
-/*
-  Used when the invitation code is missing
-  or does not exist.
-
-  The form can no longer be submitted.
-*/
-
-function showFatalError(
-  message
-){
-
-  err.textContent =
-    message;
-
-
-  err.hidden =
-    false;
-
-
-  send.disabled =
-    true;
-
-
-  send.textContent =
-    T[lang].send;
-
-}
-
-
-/* =========================================
-   THANK YOU SCREEN
-   ========================================= */
-
-function showThankYou(){
-
-  /*
-    Hide the actual form so there is
-    no possibility of submitting again
-    through the normal interface.
-  */
-
-  form.hidden =
-    true;
-
-
-  $("done").hidden =
-    false;
-
-
-  /*
-    Browser-side convenience.
-
-    Server-side invitation verification
-    remains the real protection.
-  */
-
-  if(INVITE_ID){
-
-    storageSet(
-      submittedStorageKey(),
-      "true"
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   CHECK EXISTING RSVP
-   ========================================= */
-
-async function checkAlreadySubmitted(){
-
-  /*
-    Invitation URLs must contain:
-
-    ?i=INVITATION_CODE
-  */
-
-  if(!INVITE_ID){
-
-    showFatalError(
-      T[lang]
-        .errInviteMissing
-    );
-
-
-    return;
-
-  }
-
-
-  /*
-    Fast local check.
-
-    If this exact invitation was already
-    submitted from this browser there is
-    no reason to wait for the server.
-  */
-
-  if(
-    storageGet(
-      submittedStorageKey()
-    ) === "true"
-  ){
-
-    showThankYou();
-
-    return;
-
-  }
-
-
-  /*
-    Server check.
-
-    This catches:
-    - same invitation from another browser
-    - same invitation from another device
-    - existing RSVP after localStorage clear
-  */
-
-  try{
-
-    const params =
-      new URLSearchParams({
-
-        inviteId:
-          INVITE_ID,
-
-        deviceId:
-          DEVICE_ID
-
-      });
-
-
-    const response =
-      await fetch(
-        `${RSVP_ENDPOINT}?${params.toString()}`,
-        {
-
-          method:
-            "GET",
-
-          cache:
-            "no-store"
-
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    /*
-      Invalid invitation.
-    */
-
-    if(
-      result.error ===
-      "invalid_invitation"
-    ){
-
-      showFatalError(
-        T[lang].errInvite
-      );
-
-
-      return;
-
-    }
-
-
-    /*
-      Already answered.
-    */
-
-    if(
-      result.ok &&
-      result.alreadySubmitted
-    ){
-
-      showThankYou();
-
-    }
-
-  }
-
-  catch(error){
-
-    /*
-      Don't permanently block the form
-      merely because the initial status
-      check failed.
-
-      Submission itself will still be
-      validated by the server.
-    */
-
-    console.error(
-      "Could not check RSVP status:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================
    SUBMIT
    ========================================= */
 
@@ -1328,16 +854,15 @@ form.addEventListener(
       true;
 
 
-    /*
-      A valid personalized invitation link
-      is required.
-    */
+    if(
+      !SCRIPT_URL ||
+      SCRIPT_URL.includes(
+        "PASTE_YOUR"
+      )
+    ){
 
-    if(!INVITE_ID){
-
-      return showFatalError(
-        T[lang]
-          .errInviteMissing
+      return showError(
+        T[lang].errConfig
       );
 
     }
@@ -1375,10 +900,6 @@ form.addEventListener(
         : "";
 
 
-    /* =====================================
-       VALIDATION
-       ===================================== */
-
     if(!name){
 
       return showError(
@@ -1412,9 +933,7 @@ form.addEventListener(
     }
 
 
-    /* =====================================
-       DIET
-       ===================================== */
+    /* Diet */
 
     let dietLabel =
       "";
@@ -1429,8 +948,8 @@ form.addEventListener(
       const diet =
         DIETS.find(
           item =>
-            item.v ===
-            dietSel.value
+          item.v ===
+          dietSel.value
         );
 
 
@@ -1460,13 +979,7 @@ form.addEventListener(
 
       }
 
-      else if(diet){
-
-        /*
-          Save standardized Spanish label
-          in Google Sheets regardless of
-          interface language.
-        */
+      else{
 
         dietLabel =
           diet.es;
@@ -1476,9 +989,7 @@ form.addEventListener(
     }
 
 
-    /* =====================================
-       APPLIES TO
-       ===================================== */
+    /* Applies to */
 
     let appliesTo =
       "";
@@ -1517,27 +1028,7 @@ form.addEventListener(
     }
 
 
-    /* =====================================
-       PAYLOAD
-       ===================================== */
-
     const payload = {
-
-      /*
-        Primary unique identifier.
-      */
-
-      inviteId:
-        INVITE_ID,
-
-
-      /*
-        Secondary browser/device identifier.
-      */
-
-      deviceId:
-        DEVICE_ID,
-
 
       name,
 
@@ -1545,12 +1036,10 @@ form.addEventListener(
 
       phone,
 
-
       attending:
         going
           ? "Yes"
           : "No",
-
 
       guests:
         going
@@ -1562,28 +1051,20 @@ form.addEventListener(
 
           : 0,
 
-
       diet:
         dietLabel,
 
-
       appliesTo,
-
 
       note:
         $("note")
           .value
           .trim(),
 
-
       lang
 
     };
 
-
-    /* =====================================
-       PREVENT DOUBLE CLICK
-       ===================================== */
 
     send.disabled =
       true;
@@ -1595,97 +1076,36 @@ form.addEventListener(
 
     try{
 
-      const response =
-        await fetch(
-          RSVP_ENDPOINT,
-          {
+      await fetch(
+        SCRIPT_URL,
+        {
 
-            method:
-              "POST",
+          method:
+            "POST",
 
-            headers:{
+          mode:
+            "no-cors",
 
-              "Content-Type":
-                "application/json"
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
 
-            },
+          body:
+            JSON.stringify(
+              payload
+            )
 
-            body:
-              JSON.stringify(
-                payload
-              )
-
-          }
-        );
-
-
-      let result;
+        }
+      );
 
 
-      try{
-
-        result =
-          await response.json();
-
-      }
-
-      catch(error){
-
-        throw new Error(
-          "invalid_server_response"
-        );
-
-      }
+      form.hidden =
+        true;
 
 
-      /* ===================================
-         INVALID INVITATION
-         =================================== */
-
-      if(
-        result.error ===
-        "invalid_invitation"
-      ){
-
-        showFatalError(
-          T[lang].errInvite
-        );
-
-
-        return;
-
-      }
-
-
-      /* ===================================
-         SERVER ERROR
-         =================================== */
-
-      if(
-        !response.ok ||
-        !result.ok
-      ){
-
-        throw new Error(
-          result.error ||
-          "rsvp_error"
-        );
-
-      }
-
-
-      /*
-        IMPORTANT:
-
-        A successful first submission and
-        a duplicate submission intentionally
-        produce exactly the same interface.
-
-        Guests never see a separate
-        "you already submitted" message.
-      */
-
-      showThankYou();
+      $("done").hidden =
+        false;
 
 
       $("done")
@@ -1699,16 +1119,10 @@ form.addEventListener(
 
         });
 
+
     }
 
-
     catch(error){
-
-      console.error(
-        "RSVP submission error:",
-        error
-      );
-
 
       showError(
         T[lang].err
@@ -1727,5 +1141,3 @@ form.addEventListener(
 paint();
 
 toggleFields();
-
-checkAlreadySubmitted();
