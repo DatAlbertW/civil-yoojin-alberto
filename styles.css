@@ -1,6 +1,7 @@
 /* =========================================
    Yoojin & Alberto
    Elegant editorial wedding RSVP
+   Updated
    ========================================= */
 
 :root{
@@ -25,7 +26,9 @@
 }
 
 
-/* RESET */
+/* =========================================
+   RESET
+   ========================================= */
 
 *{
   box-sizing:border-box;
@@ -47,7 +50,7 @@ body{
       rgba(250,247,241,.91),
       rgba(246,241,233,.94)
     ),
-    url("assets/paper-texture.png?v=4")
+    url("assets/paper-texture.png?v=5")
     center top /
     900px auto
     repeat;
@@ -311,7 +314,7 @@ textarea{
   transform:
     translateX(-50%);
 
-  width:60%;
+  width:46%;
 
   text-align:center;
 
@@ -329,11 +332,7 @@ textarea{
 }
 
 
-/*
-   Cream block hides the original
-   printed wording beneath it.
-*/
-
+/* compact cream patch */
 .invite-live-line::before{
 
   content:"";
@@ -343,8 +342,8 @@ textarea{
   z-index:-1;
 
   inset:
-    -5px
-    -20px;
+    -4px
+    -10px;
 
   background:
     rgba(248,239,222,.97);
@@ -359,7 +358,7 @@ textarea{
 
 .invite-live-ceremony{
 
-  top:66.45%;
+  top:66.75%;
 
   font-size:
     clamp(
@@ -375,7 +374,7 @@ textarea{
 
 .invite-live-city{
 
-  top:73.65%;
+  top:73.95%;
 
   font-size:
     clamp(
@@ -1237,7 +1236,16 @@ textarea{
   .invite-live-line{
 
     width:
-      65%;
+      50%;
+
+  }
+
+
+  .invite-live-line::before{
+
+    inset:
+      -3px
+      -8px;
 
   }
 
@@ -1245,7 +1253,7 @@ textarea{
   .invite-live-ceremony{
 
     top:
-      66.5%;
+      66.75%;
 
   }
 
@@ -1253,7 +1261,7 @@ textarea{
   .invite-live-city{
 
     top:
-      73.6%;
+      73.95%;
 
   }
 
