@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5ead8">
+
+  <title>Yoojin y Alberto · 12.12.2026</title>
+  <meta name="description" content="Boda de Yoojin y Alberto · 12 de diciembre de 2026 · Ciudad de México">
+  <meta property="og:title" content="Yoojin y Alberto · 12.12.2026">
+  <meta property="og:description" content="Confirma tu asistencia · RSVP · 참석 여부">
+  <meta property="og:image" content="assets/invitation.png">
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <main class="site">
+    <nav class="langbar" aria-label="Idioma">
+      <button type="button" data-lang="es" aria-pressed="true">Español</button>
+      <button type="button" data-lang="en" aria-pressed="false">English</button>
+      <button type="button" data-lang="ko" aria-pressed="false">한국어</button>
+    </nav>
+
+    <!-- EXACT artwork crop from the invitation -->
+    <img class="art-band art-band-top" src="assets/top-art.png" alt="Peonías y dos urracas inspiradas en minhwa">
+
+    <header class="intro">
+      <p class="save">SAVE THE DATE</p>
+      <h1 class="names">Yoojin y Alberto</h1>
+      <p class="ko-names">유진 &amp; 알베르토</p>
+
+      <p class="date">12 · 12 · 2026</p>
+
+      <div class="event-details">
+        <p data-t="ceremony">Inicio de la Ceremonia: 12:30</p>
+        <p>Bosque de Tabachines 327</p>
+        <p data-t="city">Ciudad de México</p>
+      </div>
+    </header>
+
+    <div class="divider" aria-hidden="true">
+      <span></span><i>◆</i><span></span>
+    </div>
+
+    <section class="rsvp-section" aria-labelledby="rsvp-title">
+      <p class="kicker" data-t="kicker">RSVP · 12 · 12 · 2026</p>
+      <h2 id="rsvp-title" class="rsvp-title" data-t="ask">Confirma tu asistencia</h2>
+      <p class="rsvp-sub" data-t="sub">Nos encantará compartir este día tan especial contigo.</p>
+
+      <form id="rsvp" novalidate>
+        <div class="choice" role="radiogroup" aria-label="Asistencia">
+          <label>
+            <input type="radio" name="attending" value="yes" checked>
+            <span data-t="yes">Sí, ahí estaré</span>
+          </label>
+          <label>
+            <input type="radio" name="attending" value="no">
+            <span data-t="no">No podré ir</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="name"><span data-t="lName">Nombre completo</span> <b>*</b></label>
+          <input type="text" id="name" name="name" autocomplete="name" maxlength="120">
+        </div>
+
+        <div class="field">
+          <label for="phone"><span data-t="lPhone">Teléfono</span> <b>*</b></label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="50">
+          <p class="hint" data-t="hPhone">Con código de país, por ejemplo +52 55 1234 5678</p>
+        </div>
+
+        <div class="field" data-only="yes">
+          <label data-t="lGuests">Personas, incluyéndote</label>
+          <div class="stepper">
+            <button type="button" id="minus" aria-label="Disminuir" disabled>−</button>
+            <output id="guests" aria-live="polite">1</output>
+            <button type="button" id="plus" aria-label="Aumentar">+</button>
+          </div>
+          <p class="hint" data-t="hGuests">Máximo 2 personas por invitación.</p>
+        </div>
+
+        <div class="field" id="f-name2" hidden>
+          <label for="name2"><span data-t="lName2">Nombre de la segunda persona</span> <b>*</b></label>
+          <input type="text" id="name2" name="name2" autocomplete="off" maxlength="120">
+        </div>
+
+        <div class="field" data-only="yes">
+          <label for="diet" data-t="lDiet">Restricciones alimentarias</label>
+          <select id="diet" name="diet"></select>
+
+          <div id="f-dietother" class="nested" hidden>
+            <input type="text" id="dietother" name="dietother" maxlength="160" data-ph="phDietOther">
+          </div>
+
+          <div id="f-who" hidden>
+            <p class="hint who-title" data-t="lWho">¿Para quién aplica?</p>
+            <div class="who">
+              <label><input type="radio" name="who" value="p1"><span id="w1">Persona 1</span></label>
+              <label><input type="radio" name="who" value="p2"><span id="w2">Persona 2</span></label>
+              <label><input type="radio" name="who" value="both" checked><span data-t="wBoth">Ambos</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="note" data-t="lNote">Un mensaje para nosotros</label>
+          <textarea id="note" name="note" maxlength="800" data-ph="phNote"></textarea>
+        </div>
+
+        <button type="submit" class="send" data-t="send">Enviar confirmación</button>
+        <p class="error" id="err" role="alert" hidden></p>
+      </form>
+
+      <div class="done" id="done" hidden>
+        <h3 data-t="doneTitle">¡Gracias!</h3>
+        <p data-t="doneBody">Tu respuesta quedó registrada. Nos hace mucha ilusión celebrar contigo.</p>
+      </div>
+    </section>
+
+    <footer class="closing">
+      <p data-t="footer">Que la vida nos siga uniendo en bellos caminos.</p>
+    </footer>
+
+    <!-- EXACT bottom artwork crop from the invitation -->
+    <img class="art-band art-band-bottom" src="assets/bottom-art.png" alt="Peonías y osos de arte popular">
+  </main>
+
+  <script src="rsvp.js"></script>
+</body>
+</html>
