@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5ead8">
+  <title>Yoojin y Alberto · RSVP</title>
+  <meta name="description" content="RSVP para la boda de Yoojin y Alberto">
+  <meta property="og:title" content="Yoojin y Alberto · RSVP">
+  <meta property="og:description" content="Confirma tu asistencia · RSVP · 참석 여부">
+  <meta property="og:image" content="assets/invitation.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --paper:#f4ead8;
+      --paper-soft:#fbf7ef;
+      --ink:#4c3324;
+      --ink-soft:#6f5744;
+      --terracotta:#c66d55;
+      --terracotta-dark:#a95541;
+      --olive:#7c7d64;
+      --line:rgba(76,51,36,.18);
+      --shadow:rgba(76,51,36,.12);
+    }
+
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:"Jost","Noto Serif KR",system-ui,sans-serif;
+      background:
+        linear-gradient(rgba(244,234,216,.92), rgba(244,234,216,.92)),
+        url("assets/paper-tile.png") center top / 420px auto repeat;
+    }
+
+    button,input,select,textarea{font:inherit}
+    img{display:block;max-width:100%}
+
+    .page{
+      width:min(100% - 18px, 850px);
+      margin:16px auto 36px;
+    }
+
+    .invite-site{
+      position:relative;
+      overflow:hidden;
+      border-radius:20px;
+      border:1px solid rgba(76,51,36,.10);
+      box-shadow:0 16px 56px var(--shadow);
+      background:
+        linear-gradient(rgba(251,247,239,.93), rgba(251,247,239,.93)),
+        url("assets/paper-tile.png") center top / 420px auto repeat;
+    }
+
+    .langbar{
+      position:sticky;
+      top:0;
+      z-index:10;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      padding:16px 16px 10px;
+      background:linear-gradient(rgba(251,247,239,.96), rgba(251,247,239,.88));
+      backdrop-filter:blur(6px);
+    }
+    .langbar button{
+      min-width:96px;
+      padding:10px 16px;
+      border:1px solid rgba(198,109,85,.44);
+      border-radius:999px;
+      background:rgba(255,252,247,.94);
+      color:var(--ink);
+      cursor:pointer;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:20px;
+      font-weight:600;
+      transition:.18s ease;
+    }
+    .langbar button[aria-pressed="true"]{
+      background:var(--terracotta);
+      border-color:var(--terracotta);
+      color:#fffaf4;
+    }
+
+    .hero{
+      background:
+        linear-gradient(rgba(251,247,239,.12), rgba(251,247,239,.12)),
+        url("assets/top-band.png") top center / 100% auto no-repeat,
+        url("assets/paper-tile.png") center top / 420px auto repeat;
+      padding:clamp(205px, 36vw, 415px) 26px 18px;
+      text-align:center;
+    }
+    .save{
+      margin:0 0 7px;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:clamp(16px,2vw,18px);
+      font-weight:700;
+      letter-spacing:.26em;
+      text-transform:uppercase;
+      color:#593c2a;
+    }
+    .names{
+      margin:0;
+      font-family:"Parisienne",cursive;
+      font-weight:400;
+      font-size:clamp(54px,9vw,92px);
+      line-height:1.02;
+      color:#4b3224;
+    }
+    .ko{
+      margin:8px 0 18px;
+      font-family:"Noto Serif KR",serif;
+      font-size:clamp(22px,3.7vw,29px);
+      font-weight:500;
+      color:#4b3224;
+    }
+    .date{
+      margin:0 0 12px;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:clamp(32px,4.9vw,43px);
+      font-weight:600;
+      letter-spacing:.15em;
+      color:#4b3224;
+    }
+    .details{
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:clamp(22px,3.2vw,30px);
+      line-height:1.34;
+      font-weight:600;
+      color:#4b3224;
+    }
+    .details p{margin:0}
+    .details p + p{margin-top:2px}
+
+    .rsvp-wrap{
+      position:relative;
+      padding:10px 28px 0;
+      text-align:center;
+    }
+    .rsvp-kicker{
+      margin:0 0 8px;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:16px;
+      font-weight:700;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+    }
+    .rsvp-title{
+      margin:0;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:clamp(44px,6vw,62px);
+      line-height:1.02;
+      font-weight:600;
+      color:#4a3021;
+    }
+    .rsvp-sub{
+      max-width:470px;
+      margin:8px auto 28px;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:clamp(22px,3vw,28px);
+      line-height:1.25;
+      font-weight:500;
+      color:var(--ink-soft);
+    }
+
+    .form{
+      width:min(100%, 560px);
+      margin:0 auto;
+      text-align:left;
+      position:relative;
+      z-index:1;
+    }
+
+    .choice{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:0 0 24px;
+    }
+    .choice label{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      min-height:59px;
+      padding:12px 14px;
+      background:rgba(255,252,247,.95);
+      border:1px solid rgba(198,109,85,.40);
+      border-radius:999px;
+      cursor:pointer;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:30px;
+      font-weight:600;
+      transition:.18s ease;
+      text-align:center;
+    }
+    .choice input{position:absolute;opacity:0}
+    .choice label:has(input:checked){
+      background:var(--terracotta);
+      border-color:var(--terracotta);
+      color:#fffaf4;
+      box-shadow:0 8px 16px rgba(198,109,85,.18);
+    }
+
+    .field{margin:0 0 18px}
+    .field > label{
+      display:block;
+      margin:0 0 7px;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:27px;
+      font-weight:600;
+      color:#4d3424;
+    }
+    .req{color:var(--terracotta)}
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      padding:14px 15px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,252,247,.95);
+      color:var(--ink);
+      font-family:"Jost","Noto Serif KR",sans-serif;
+      font-size:17px;
+      outline:none;
+      transition:.18s ease;
+    }
+    .field textarea{min-height:110px;resize:vertical}
+    .field select{
+      appearance:none;
+      -webkit-appearance:none;
+      padding-right:42px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%234c3324' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 14px center;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus{
+      border-color:rgba(198,109,85,.72);
+      box-shadow:0 0 0 4px rgba(198,109,85,.10);
+    }
+
+    .hint{
+      margin:6px 0 0;
+      font-size:13px;
+      color:var(--ink-soft);
+    }
+
+    .stepper{
+      display:inline-grid;
+      grid-template-columns:54px 72px 54px;
+      overflow:hidden;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,252,247,.95);
+    }
+    .stepper button{
+      min-height:52px;
+      border:0;
+      background:transparent;
+      font-size:30px;
+      color:var(--ink);
+      cursor:pointer;
+    }
+    .stepper button:disabled{opacity:.35;cursor:default}
+    .stepper output{
+      display:grid;
+      place-items:center;
+      border-left:1px solid rgba(76,51,36,.12);
+      border-right:1px solid rgba(76,51,36,.12);
+      font-family:"Cormorant Garamond",serif;
+      font-size:30px;
+      font-weight:600;
+    }
+
+    .who{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:10px;
+    }
+    .who label{
+      display:block;
+      position:relative;
+      padding:10px 8px;
+      border:1px solid rgba(76,51,36,.16);
+      border-radius:999px;
+      background:rgba(255,252,247,.92);
+      text-align:center;
+      font-size:14px;
+      cursor:pointer;
+    }
+    .who input{position:absolute;opacity:0}
+    .who label:has(input:checked){
+      background:var(--olive);
+      border-color:var(--olive);
+      color:white;
+    }
+
+    .send{
+      width:100%;
+      margin-top:8px;
+      padding:15px 18px;
+      border:0;
+      border-radius:999px;
+      background:var(--terracotta);
+      color:#fffaf4;
+      cursor:pointer;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:31px;
+      font-weight:600;
+      box-shadow:0 10px 24px rgba(198,109,85,.20);
+      transition:.18s ease;
+    }
+    .send:hover:not(:disabled){background:var(--terracotta-dark)}
+    .send:disabled{opacity:.6;cursor:default}
+
+    .error{
+      margin:16px 0 0;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(198,109,85,.24);
+      background:rgba(198,109,85,.10);
+      color:#7b4434;
+      font-size:14px;
+    }
+
+    .done{
+      max-width:480px;
+      margin:0 auto;
+      text-align:center;
+      padding:12px 0 8px;
+    }
+    .done h3{
+      margin:0 0 6px;
+      font-family:"Parisienne",cursive;
+      font-size:62px;
+      font-weight:400;
+      line-height:1;
+      color:#4b3224;
+    }
+    .done p{
+      margin:0;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:24px;
+      line-height:1.28;
+      color:var(--ink-soft);
+    }
+
+    .footer-art{
+      background:
+        linear-gradient(rgba(251,247,239,.10), rgba(251,247,239,.10)),
+        url("assets/bottom-band.png") bottom center / 100% auto no-repeat,
+        url("assets/paper-tile.png") center bottom / 420px auto repeat;
+      min-height:clamp(220px, 28vw, 360px);
+      padding:38px 24px clamp(170px, 24vw, 290px);
+      text-align:center;
+    }
+    .footer-art p{
+      margin:0 auto;
+      max-width:520px;
+      font-family:"Cormorant Garamond","Noto Serif KR",serif;
+      font-size:clamp(24px,3vw,30px);
+      line-height:1.24;
+      font-weight:600;
+      color:var(--ink-soft);
+    }
+
+    [hidden]{display:none !important}
+
+    @media (max-width:720px){
+      .page{width:100%;margin:0}
+      .invite-site{border-radius:0;border-left:0;border-right:0}
+      .langbar{padding-top:12px}
+      .langbar button{min-width:84px;font-size:18px}
+      .hero{padding-left:18px;padding-right:18px}
+      .rsvp-wrap{padding-left:18px;padding-right:18px}
+      .field > label{font-size:24px}
+      .choice{grid-template-columns:1fr}
+      .choice label{font-size:28px}
+      .who{grid-template-columns:1fr}
+      .send{font-size:29px}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{transition:none !important;scroll-behavior:auto !important}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="invite-site">
+      <nav class="langbar" aria-label="Idioma">
+        <button type="button" data-lang="es" aria-pressed="true">Español</button>
+        <button type="button" data-lang="en" aria-pressed="false">English</button>
+        <button type="button" data-lang="ko" aria-pressed="false">한국어</button>
+      </nav>
+
+      <header class="hero">
+        <p class="save">SAVE THE DATE</p>
+        <h1 class="names">Yoojin y Alberto</h1>
+        <p class="ko">유진 &amp; 알베르토</p>
+        <p class="date">12 · 12 · 2026</p>
+        <div class="details">
+          <p data-t="ceremony">Inicio de la Ceremonia: 12:30</p>
+          <p>Bosque de Tabachines 327</p>
+          <p data-t="city">Ciudad de México</p>
+        </div>
+      </header>
+
+      <section class="rsvp-wrap">
+        <p class="rsvp-kicker" data-t="kicker">RSVP · 12 · 12 · 2026</p>
+        <h2 class="rsvp-title" data-t="ask">Confirma tu asistencia</h2>
+        <p class="rsvp-sub" data-t="sub">Nos encantará compartir este día tan especial contigo.</p>
+
+        <form id="rsvp" class="form" novalidate>
+          <div class="choice">
+            <label>
+              <input type="radio" name="attending" value="yes" checked>
+              <span data-t="yes">Sí, ahí estaré</span>
+            </label>
+            <label>
+              <input type="radio" name="attending" value="no">
+              <span data-t="no">No podré ir</span>
+            </label>
+          </div>
+
+          <div class="field">
+            <label for="name"><span data-t="lName">Nombre completo</span> <span class="req">*</span></label>
+            <input type="text" id="name" name="name" autocomplete="name" maxlength="120">
+          </div>
+
+          <div class="field">
+            <label for="phone"><span data-t="lPhone">Teléfono</span> <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="50">
+            <p class="hint" data-t="hPhone">Con código de país, por ejemplo +52 55 1234 5678</p>
+          </div>
+
+          <div class="field" data-only="yes">
+            <label data-t="lGuests">Personas, incluyéndote</label>
+            <div class="stepper" aria-label="Número de personas">
+              <button type="button" id="minus" aria-label="Disminuir" disabled>−</button>
+              <output id="guests" aria-live="polite">1</output>
+              <button type="button" id="plus" aria-label="Aumentar">+</button>
+            </div>
+            <p class="hint" data-t="hGuests">Máximo 2 personas por invitación.</p>
+          </div>
+
+          <div class="field" id="f-name2" hidden>
+            <label for="name2"><span data-t="lName2">Nombre de la segunda persona</span> <span class="req">*</span></label>
+            <input type="text" id="name2" name="name2" autocomplete="off" maxlength="120">
+          </div>
+
+          <div class="field" data-only="yes">
+            <label for="diet" data-t="lDiet">Restricciones alimentarias</label>
+            <select id="diet" name="diet"></select>
+
+            <div id="f-dietother" hidden style="margin-top:10px">
+              <input type="text" id="dietother" name="dietother" maxlength="160" data-ph="phDietOther">
+            </div>
+
+            <div id="f-who" hidden>
+              <p class="hint" data-t="lWho" style="margin-top:12px">¿Para quién aplica?</p>
+              <div class="who">
+                <label><input type="radio" name="who" value="p1"><span id="w1">Persona 1</span></label>
+                <label><input type="radio" name="who" value="p2"><span id="w2">Persona 2</span></label>
+                <label><input type="radio" name="who" value="both" checked><span data-t="wBoth">Ambos</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="note" data-t="lNote">Un mensaje para nosotros</label>
+            <textarea id="note" name="note" maxlength="800" data-ph="phNote"></textarea>
+          </div>
+
+          <button type="submit" class="send" data-t="send">Enviar confirmación</button>
+          <p class="error" id="err" role="alert" hidden></p>
+        </form>
+
+        <div class="done" id="done" hidden>
+          <h3 data-t="doneTitle">¡Gracias!</h3>
+          <p data-t="doneBody">Tu respuesta quedó registrada. Nos hace mucha ilusión celebrar contigo.</p>
+        </div>
+      </section>
+
+      <footer class="footer-art">
+        <p data-t="footer">Que la vida nos siga uniendo en bellos caminos.</p>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+    const MAX_GUESTS = 2;
+
+    const DIETS = [
+      {v:"none", es:"Ninguna", en:"None", ko:"없음"},
+      {v:"vegetarian", es:"Vegetariano", en:"Vegetarian", ko:"채식 (베지테리언)"},
+      {v:"vegan", es:"Vegano", en:"Vegan", ko:"비건"},
+      {v:"gluten", es:"Sin gluten (celiaquía)", en:"Gluten free (celiac)", ko:"글루텐 프리 (셀리악)"},
+      {v:"lactose", es:"Sin lactosa", en:"Lactose free", ko:"유당 불내증"},
+      {v:"nuts", es:"Alergia a frutos secos", en:"Nut allergy", ko:"견과류 알레르기"},
+      {v:"seafood", es:"Alergia a mariscos", en:"Shellfish allergy", ko:"갑각류 알레르기"},
+      {v:"pork", es:"Sin cerdo", en:"No pork", ko:"돼지고기 제외"},
+      {v:"halal", es:"Halal", en:"Halal", ko:"할랄"},
+      {v:"kosher", es:"Kosher", en:"Kosher", ko:"코셔"},
+      {v:"spicy", es:"Sin picante", en:"No spicy food", ko:"매운 음식 제외"},
+      {v:"other", es:"Otra (especificar)", en:"Other (specify)", ko:"기타 (직접 입력)"}
+    ];
+
+    const T = {
+      es:{
+        ceremony:"Inicio de la Ceremonia: 12:30",
+        city:"Ciudad de México",
+        kicker:"RSVP · 12 · 12 · 2026",
+        ask:"Confirma tu asistencia",
+        sub:"Nos encantará compartir este día tan especial contigo.",
+        yes:"Sí, ahí estaré",
+        no:"No podré ir",
+        lName:"Nombre completo",
+        lName2:"Nombre de la segunda persona",
+        lPhone:"Teléfono",
+        hPhone:"Con código de país, por ejemplo +52 55 1234 5678",
+        lGuests:"Personas, incluyéndote",
+        hGuests:"Máximo 2 personas por invitación.",
+        lDiet:"Restricciones alimentarias",
+        phDietOther:"Cuéntanos cuál",
+        lWho:"¿Para quién aplica?",
+        wBoth:"Ambos",
+        p1:"Persona 1",
+        p2:"Persona 2",
+        lNote:"Un mensaje para nosotros",
+        phNote:"Escribe aquí tu mensaje…",
+        send:"Enviar confirmación",
+        err:"No se pudo enviar. Revisa tu conexión e inténtalo otra vez.",
+        errConfig:"Falta configurar la URL de Apps Script. Revisa SETUP.md.",
+        errName:"Escribe tu nombre.",
+        errName2:"Escribe el nombre de la segunda persona.",
+        errPhone:"Escribe tu teléfono.",
+        errOther:"Cuéntanos cuál es la restricción.",
+        doneTitle:"¡Gracias!",
+        doneBody:"Tu respuesta quedó registrada. Nos hace mucha ilusión celebrar contigo.",
+        footer:"Que la vida nos siga uniendo en bellos caminos."
+      },
+      en:{
+        ceremony:"Ceremony begins: 12:30",
+        city:"Mexico City",
+        kicker:"RSVP · 12 · 12 · 2026",
+        ask:"Kindly RSVP",
+        sub:"We would love to share this very special day with you.",
+        yes:"Yes, I'll be there",
+        no:"I can't make it",
+        lName:"Full name",
+        lName2:"Name of the second person",
+        lPhone:"Phone",
+        hPhone:"Include the country code, for example +41 79 123 45 67",
+        lGuests:"People, including you",
+        hGuests:"Maximum 2 people per invitation.",
+        lDiet:"Dietary restrictions",
+        phDietOther:"Tell us what it is",
+        lWho:"Who does this apply to?",
+        wBoth:"Both",
+        p1:"Person 1",
+        p2:"Person 2",
+        lNote:"A message for us",
+        phNote:"Write your message here…",
+        send:"Send RSVP",
+        err:"Your RSVP could not be sent. Check your connection and try again.",
+        errConfig:"The Apps Script URL has not been configured. See SETUP.md.",
+        errName:"Please enter your name.",
+        errName2:"Please enter the second person's name.",
+        errPhone:"Please enter your phone number.",
+        errOther:"Please tell us what the restriction is.",
+        doneTitle:"Thank you!",
+        doneBody:"Your RSVP has been recorded. We are so excited to celebrate with you.",
+        footer:"May life keep bringing our paths together."
+      },
+      ko:{
+        ceremony:"예식 시작: 12:30",
+        city:"멕시코시티",
+        kicker:"RSVP · 2026 · 12 · 12",
+        ask:"참석 여부를 알려주세요",
+        sub:"소중한 날을 함께해 주시면 정말 기쁘겠습니다.",
+        yes:"참석합니다",
+        no:"참석이 어렵습니다",
+        lName:"성함",
+        lName2:"동반하시는 분 성함",
+        lPhone:"연락처",
+        hPhone:"국가번호를 포함해 주세요. 예: +82 10 1234 5678",
+        lGuests:"참석 인원 (본인 포함)",
+        hGuests:"초대장당 최대 2명까지 가능합니다.",
+        lDiet:"식단 제한 사항",
+        phDietOther:"어떤 제한인지 알려주세요",
+        lWho:"누구에게 해당하나요?",
+        wBoth:"두 분 모두",
+        p1:"첫 번째 분",
+        p2:"두 번째 분",
+        lNote:"전하고 싶은 말",
+        phNote:"메시지를 남겨주세요…",
+        send:"참석 여부 보내기",
+        err:"전송에 실패했습니다. 연결을 확인한 뒤 다시 시도해 주세요.",
+        errConfig:"Apps Script URL이 설정되지 않았습니다. SETUP.md를 확인해 주세요.",
+        errName:"성함을 입력해 주세요.",
+        errName2:"동반하시는 분의 성함을 입력해 주세요.",
+        errPhone:"연락처를 입력해 주세요.",
+        errOther:"어떤 제한인지 알려주세요.",
+        doneTitle:"감사합니다!",
+        doneBody:"참석 여부가 등록되었습니다. 함께 축하할 날을 기다리고 있겠습니다.",
+        footer:"아름다운 길 위에서 우리의 인연이 계속 이어지길 바랍니다."
+      }
+    };
+
+    const $ = id => document.getElementById(id);
+    const form = $("rsvp");
+    const err = $("err");
+    const send = form.querySelector(".send");
+    const dietSel = $("diet");
+    const out = $("guests");
+    const minus = $("minus");
+    const plus = $("plus");
+
+    const savedLang = localStorage.getItem("weddingLang");
+    const browserLang = (navigator.language || "es").toLowerCase();
+    let lang = savedLang || (browserLang.startsWith("ko") ? "ko" : browserLang.startsWith("en") ? "en" : "es");
+    let count = 1;
+
+    function paint(){
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-t]").forEach(el=>{
+        const value = T[lang][el.dataset.t];
+        if(value !== undefined) el.textContent = value;
+      });
+      document.querySelectorAll("[data-ph]").forEach(el=>{
+        el.placeholder = T[lang][el.dataset.ph] || "";
+      });
+      document.querySelectorAll(".langbar button").forEach(b=>{
+        b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+      });
+
+      const keep = dietSel.value || "none";
+      dietSel.innerHTML = "";
+      DIETS.forEach(d=>{
+        const option = document.createElement("option");
+        option.value = d.v;
+        option.textContent = d[lang];
+        dietSel.appendChild(option);
+      });
+      dietSel.value = keep;
+      drawWho();
+    }
+
+    document.querySelectorAll(".langbar button").forEach(button=>{
+      button.addEventListener("click", ()=>{
+        lang = button.dataset.lang;
+        localStorage.setItem("weddingLang", lang);
+        paint();
+      });
+    });
+
+    function firstName(value){
+      return (value || "").trim().split(/\s+/)[0] || "";
+    }
+
+    function drawCount(){
+      out.textContent = count;
+      minus.disabled = count <= 1;
+      plus.disabled = count >= MAX_GUESTS;
+      const going = form.attending.value === "yes";
+      $("f-name2").hidden = !(going && count === 2);
+      drawWho();
+    }
+
+    function drawWho(){
+      const going = form.attending.value === "yes";
+      const hasDiet = dietSel.value && dietSel.value !== "none";
+      $("f-dietother").hidden = dietSel.value !== "other";
+      $("f-who").hidden = !(going && count === 2 && hasDiet);
+      $("w1").textContent = firstName($("name").value) || T[lang].p1;
+      $("w2").textContent = firstName($("name2").value) || T[lang].p2;
+    }
+
+    function toggleFields(){
+      const going = form.attending.value === "yes";
+      document.querySelectorAll('[data-only="yes"]').forEach(el => el.hidden = !going);
+      drawCount();
+    }
+
+    plus.addEventListener("click", ()=>{ count = Math.min(MAX_GUESTS, count + 1); drawCount(); });
+    minus.addEventListener("click", ()=>{ count = Math.max(1, count - 1); drawCount(); });
+
+    dietSel.addEventListener("change", drawWho);
+    $("name").addEventListener("input", drawWho);
+    $("name2").addEventListener("input", drawWho);
+    document.querySelectorAll("input[name=attending]").forEach(radio=>{
+      radio.addEventListener("change", toggleFields);
+    });
+
+    function showError(message, focusEl){
+      err.textContent = message;
+      err.hidden = false;
+      send.disabled = false;
+      send.textContent = T[lang].send;
+      if(focusEl) focusEl.focus();
+    }
+
+    form.addEventListener("submit", async event=>{
+      event.preventDefault();
+      err.hidden = true;
+
+      if(!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR")){
+        return showError(T[lang].errConfig);
+      }
+
+      const name = $("name").value.trim();
+      const phone = $("phone").value.trim();
+      const going = form.attending.value === "yes";
+      const two = going && count === 2;
+      const name2 = two ? $("name2").value.trim() : "";
+
+      if(!name) return showError(T[lang].errName, $("name"));
+      if(!phone) return showError(T[lang].errPhone, $("phone"));
+      if(two && !name2) return showError(T[lang].errName2, $("name2"));
+
+      let dietLabel = "";
+      if(going && dietSel.value !== "none"){
+        const diet = DIETS.find(item => item.v === dietSel.value);
+        if(dietSel.value === "other"){
+          const other = $("dietother").value.trim();
+          if(!other) return showError(T[lang].errOther, $("dietother"));
+          dietLabel = other;
+        } else {
+          dietLabel = diet.es;
+        }
+      }
+
+      let appliesTo = "";
+      if(dietLabel && two){
+        const who = form.who.value;
+        appliesTo = who === "p1" ? name : who === "p2" ? name2 : "Ambos";
+      } else if(dietLabel){
+        appliesTo = name;
+      }
+
+      const payload = {
+        name,
+        name2,
+        phone,
+        attending: going ? "Yes" : "No",
+        guests: going ? Math.min(count, MAX_GUESTS) : 0,
+        diet: dietLabel,
+        appliesTo,
+        note: $("note").value.trim(),
+        lang
+      };
+
+      send.disabled = true;
+      send.textContent = "· · ·";
+
+      try{
+        await fetch(SCRIPT_URL, {
+          method:"POST",
+          mode:"no-cors",
+          headers:{"Content-Type":"text/plain;charset=utf-8"},
+          body: JSON.stringify(payload)
+        });
+        form.hidden = true;
+        $("done").hidden = false;
+        $("done").scrollIntoView({behavior:"smooth", block:"center"});
+      }catch(e){
+        showError(T[lang].err);
+      }
+    });
+
+    paint();
+    toggleFields();
+  </script>
+</body>
+</html>
