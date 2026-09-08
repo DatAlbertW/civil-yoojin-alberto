@@ -1,7 +1,7 @@
 /* =========================================
    Yoojin & Alberto
    Wedding RSVP
-   Responsive Invitation Version
+   Floating Landscape Version
    ========================================= */
 
 
@@ -11,11 +11,11 @@
 
 :root{
 
-  --bg:#f7f3ec;
+  --bg:#f6f1e8;
 
   --bg-soft:#fcfaf6;
 
-  --paper:#f8f3ea;
+  --paper:#f8efde;
 
   --ink:#463022;
 
@@ -33,9 +33,15 @@
   --line-strong:
     rgba(70,48,34,.18);
 
-  --shadow:
-    0 30px 90px
-    rgba(70,48,34,.08);
+  --shadow-soft:
+    0 12px 32px
+    rgba(70,48,34,.06);
+
+  --shadow-card:
+    0 22px 54px
+    rgba(70,48,34,.08),
+    0 38px 110px
+    rgba(70,48,34,.10);
 
 }
 
@@ -51,38 +57,33 @@
 
 html{
 
-  -webkit-text-size-adjust:
-    100%;
+  min-height:100%;
 
-  scroll-behavior:
-    smooth;
+  -webkit-text-size-adjust:100%;
+
+  scroll-behavior:smooth;
+
+  background:
+    var(--bg);
 
 }
 
 
 body{
 
+  position:relative;
+
+  min-height:100vh;
+
   margin:0;
+
+  overflow-x:hidden;
 
   color:
     var(--ink);
 
-
   background:
-
-    linear-gradient(
-      rgba(250,247,241,.88),
-      rgba(246,241,233,.91)
-    ),
-
-    url(
-      "assets/paper-texture.png?v=8"
-    )
-
-    center top /
-    900px auto
-    repeat;
-
+    var(--bg);
 
   font-family:
     "Jost",
@@ -119,10 +120,123 @@ textarea{
 
 
 /* =========================================
+   FIXED LANDSCAPE BACKGROUND
+   ========================================= */
+
+/*
+  This layer stays completely fixed while
+  the invitation and RSVP scroll above it.
+
+  This works more reliably on iPhone than
+  background-attachment: fixed.
+*/
+
+body::before{
+
+  content:"";
+
+  position:fixed;
+
+  inset:-3%;
+
+  z-index:0;
+
+  pointer-events:none;
+
+
+  background-image:
+
+    linear-gradient(
+      180deg,
+      rgba(249,245,238,.30) 0%,
+      rgba(248,243,235,.20) 38%,
+      rgba(245,239,229,.28) 100%
+    ),
+
+    url(
+      "assets/site-background-wide.png?v=1"
+    );
+
+
+  background-position:
+    center center;
+
+  background-size:
+    cover;
+
+  background-repeat:
+    no-repeat;
+
+
+  /*
+    Small scale prevents tiny empty edges
+    during browser resizing.
+  */
+
+  transform:
+    scale(1.025);
+
+  transform-origin:
+    center;
+
+}
+
+
+/* =========================================
+   BACKGROUND DEPTH / ATMOSPHERE
+   ========================================= */
+
+body::after{
+
+  content:"";
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:1;
+
+  pointer-events:none;
+
+
+  background:
+
+    radial-gradient(
+      circle at 50% 8%,
+      rgba(255,255,255,.30),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 16% 45%,
+      rgba(255,255,255,.16),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 84% 55%,
+      rgba(255,255,255,.12),
+      transparent 32%
+    ),
+
+    linear-gradient(
+      180deg,
+      rgba(248,244,237,.03),
+      rgba(70,48,34,.035)
+    );
+
+}
+
+
+/* =========================================
    PAGE
    ========================================= */
 
 .page-shell{
+
+  position:relative;
+
+  z-index:2;
 
   width:
     min(
@@ -132,7 +246,7 @@ textarea{
 
   margin:
     28px auto
-    60px;
+    64px;
 
 }
 
@@ -160,7 +274,7 @@ textarea{
 
 
 /* =========================================
-   LANGUAGE
+   LANGUAGE CONTROL
    ========================================= */
 
 .language-control{
@@ -250,22 +364,26 @@ textarea{
 
   border:
     1px solid
-    rgba(70,48,34,.18);
+    rgba(70,48,34,.14);
 
   border-radius:
     999px;
 
   background:
-    rgba(255,255,255,.72);
-
-  backdrop-filter:
-    blur(8px);
+    rgba(255,252,247,.76);
 
   -webkit-backdrop-filter:
-    blur(8px);
+    blur(14px);
+
+  backdrop-filter:
+    blur(14px);
 
   color:
     var(--ink);
+
+  box-shadow:
+    0 8px 24px
+    rgba(70,48,34,.045);
 
   font-family:
     "Cormorant Garamond",
@@ -288,11 +406,13 @@ textarea{
   outline:none;
 
   border-color:
-    rgba(184,106,84,.65);
+    rgba(184,106,84,.55);
 
   box-shadow:
     0 0 0 4px
-    rgba(184,106,84,.10);
+    rgba(184,106,84,.08),
+    0 8px 24px
+    rgba(70,48,34,.045);
 
 }
 
@@ -327,36 +447,34 @@ textarea{
     );
 
   padding:
-    14px;
+    16px;
+
+  overflow:hidden;
 
   border-radius:
-    26px;
+    28px;
 
   background:
-    rgba(255,255,255,.44);
+    rgba(255,252,247,.50);
 
   border:
     1px solid
-    rgba(255,255,255,.58);
+    rgba(255,255,255,.64);
 
   box-shadow:
-    0 28px 80px
-    rgba(70,48,34,.10);
-
-  backdrop-filter:
-    blur(8px);
+    var(--shadow-card);
 
   -webkit-backdrop-filter:
-    blur(8px);
+    blur(15px);
+
+  backdrop-filter:
+    blur(15px);
 
 }
 
 
 /* =========================================
    INVITATION ART
-
-   Coordinates of the translated information
-   are relative to the invitation itself.
    ========================================= */
 
 .invitation-art{
@@ -384,7 +502,7 @@ textarea{
   height:auto;
 
   border-radius:
-    17px;
+    18px;
 
 }
 
@@ -406,32 +524,23 @@ textarea{
     );
 
 
-  /*
-    Rectangle adapts to text rather
-    than using a fixed width.
-  */
-
   width:
     max-content;
 
   max-width:
-    84%;
+    86%;
 
-
-  /*
-    Slightly more horizontal breathing room.
-  */
 
   padding:
-    .35em
-    1em;
+    .34em
+    .92em;
 
 
   display:flex;
 
-  align-items:center;
-
   justify-content:center;
+
+  align-items:center;
 
 
   white-space:
@@ -446,25 +555,28 @@ textarea{
 
 
   /*
-    Since the new invitation image contains
-    no text underneath, this can now be
-    slightly softer and more natural.
+    Subtle cream patch.
+
+    Because the new invitation has no text
+    underneath, this can be delicate.
   */
 
   background:
     rgba(
-      250,
+      248,
       239,
-      219,
-      .96
+      222,
+      .95
     );
 
 
   border-radius:
-    2px;
+    3px;
 
 
-  box-shadow: none;
+  box-shadow:
+    0 1px 3px
+    rgba(70,48,34,.025);
 
 
   font-family:
@@ -491,10 +603,6 @@ textarea{
 }
 
 
-/*
-  No pseudo-background required.
-*/
-
 .invite-live-line::before{
 
   display:none;
@@ -508,17 +616,8 @@ textarea{
 
 .invite-live-ceremony{
 
-  /*
-    Slightly lower than previous version.
-  */
-
   top:
-    67.55%;
-
-
-  /*
-    Fallback size.
-  */
+    67.35%;
 
   font-size:
     21px;
@@ -532,13 +631,8 @@ textarea{
 
 .invite-live-address{
 
-  /*
-    Exactly between ceremony and city.
-  */
-
   top:
-    71.25%;
-
+    71.05%;
 
   font-size:
     20px;
@@ -553,8 +647,7 @@ textarea{
 .invite-live-city{
 
   top:
-    74.95%;
-
+    74.75%;
 
   font-size:
     20px;
@@ -567,18 +660,11 @@ textarea{
    ========================================= */
 
 /*
-  cqw means "container query width".
+  Font sizing follows the invitation itself,
+  not the viewport.
 
-  The font sizes therefore respond to
-  invitation.png itself rather than the
-  viewport.
-
-  This keeps the proportions practically
-  identical on:
-  - iPhone
-  - Android
-  - tablet
-  - desktop
+  This is what keeps it visually consistent
+  on phones, tablets and desktop.
 */
 
 @supports (font-size:1cqw){
@@ -632,29 +718,35 @@ textarea{
   position:relative;
 
   margin-top:
-    44px;
+    46px;
 
   padding:
-    54px
-    34px;
+    56px
+    36px;
 
   border-radius:
-    30px;
+    32px;
 
   background:
     rgba(
       252,
       249,
       244,
-      .91
+      .78
     );
-
-  box-shadow:
-    var(--shadow);
 
   border:
     1px solid
-    var(--line);
+    rgba(255,255,255,.58);
+
+  box-shadow:
+    var(--shadow-card);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  backdrop-filter:
+    blur(18px);
 
 }
 
@@ -808,10 +900,10 @@ textarea{
 
   border:
     1px solid
-    rgba(184,106,84,.30);
+    rgba(184,106,84,.28);
 
   background:
-    rgba(255,255,255,.76);
+    rgba(255,255,255,.72);
 
   color:
     var(--ink);
@@ -832,7 +924,10 @@ textarea{
   cursor:pointer;
 
   transition:
-    .18s ease;
+    background-color .18s ease,
+    border-color .18s ease,
+    color .18s ease,
+    box-shadow .18s ease;
 
 }
 
@@ -858,7 +953,7 @@ textarea{
     var(--terracotta);
 
   box-shadow:
-    0 12px 26px
+    0 12px 28px
     rgba(184,106,84,.14);
 
 }
@@ -927,7 +1022,7 @@ textarea{
     var(--line-strong);
 
   background:
-    rgba(255,255,255,.82);
+    rgba(255,255,255,.78);
 
   color:
     var(--ink);
@@ -943,7 +1038,9 @@ textarea{
     16px;
 
   transition:
-    .18s ease;
+    border-color .18s ease,
+    box-shadow .18s ease,
+    background-color .18s ease;
 
 }
 
@@ -975,12 +1072,15 @@ textarea{
 .field select:focus,
 .field textarea:focus{
 
+  background:
+    rgba(255,255,255,.92);
+
   border-color:
-    rgba(184,106,84,.72);
+    rgba(184,106,84,.68);
 
   box-shadow:
     0 0 0 4px
-    rgba(184,106,84,.10);
+    rgba(184,106,84,.09);
 
 }
 
@@ -1057,7 +1157,7 @@ textarea{
     var(--line);
 
   background:
-    rgba(255,255,255,.72);
+    rgba(255,255,255,.68);
 
   text-align:center;
 
@@ -1114,7 +1214,7 @@ textarea{
     var(--line-strong);
 
   background:
-    rgba(255,255,255,.80);
+    rgba(255,255,255,.78);
 
 }
 
@@ -1220,8 +1320,13 @@ textarea{
   cursor:pointer;
 
   box-shadow:
-    0 14px 28px
-    rgba(184,106,84,.16);
+    0 14px 30px
+    rgba(184,106,84,.17);
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    box-shadow .18s ease;
 
 }
 
@@ -1229,7 +1334,22 @@ textarea{
 .send:hover:not(:disabled){
 
   filter:
-    brightness(.98);
+    brightness(.985);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 17px 34px
+    rgba(184,106,84,.20);
+
+}
+
+
+.send:active:not(:disabled){
+
+  transform:
+    translateY(0);
 
 }
 
@@ -1277,7 +1397,7 @@ textarea{
 
 
 /* =========================================
-   DONE
+   CONFIRMATION / DONE
    ========================================= */
 
 .done{
@@ -1285,11 +1405,13 @@ textarea{
   text-align:center;
 
   padding:
-    10px 4px
-    4px;
+    8px 4px
+    6px;
 
 }
 
+
+/* Wedding ducks */
 
 .done-symbol{
 
@@ -1299,8 +1421,11 @@ textarea{
 
   align-items:center;
 
-  margin-bottom:
-    12px;
+  width:100%;
+
+  margin:
+    0 auto
+    16px;
 
 }
 
@@ -1310,26 +1435,36 @@ textarea{
   display:block;
 
   width:
-    min(260px, 70%);
+    min(
+      280px,
+      72%
+    );
 
-  height:
-    auto;
+  height:auto;
+
+  object-fit:contain;
 
 }
 
+
+/* Thank you */
 
 .done h3{
 
   margin:
     0 0
-    8px;
+    9px;
 
   font-family:
     "Parisienne",
     cursive;
 
   font-size:
-    58px;
+    clamp(
+      48px,
+      8vw,
+      64px
+    );
 
   line-height:
     1;
@@ -1343,7 +1478,7 @@ textarea{
 .done p{
 
   max-width:
-    420px;
+    430px;
 
   margin:
     0 auto;
@@ -1384,7 +1519,7 @@ textarea{
     12px;
 
   padding:
-    34px 24px
+    38px 24px
     8px;
 
 }
@@ -1406,11 +1541,21 @@ textarea{
     50%;
 
   background:
-    rgba(255,255,255,.54);
+    rgba(255,252,247,.60);
 
   border:
     1px solid
-    var(--line);
+    rgba(70,48,34,.10);
+
+  box-shadow:
+    0 10px 28px
+    rgba(70,48,34,.06);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  backdrop-filter:
+    blur(10px);
 
 }
 
@@ -1449,6 +1594,10 @@ textarea{
   font-weight:
     600;
 
+  text-shadow:
+    0 1px 10px
+    rgba(255,255,255,.60);
+
 }
 
 
@@ -1464,11 +1613,90 @@ textarea{
 
 
 /* =========================================
+   TABLET
+   ========================================= */
+
+@media
+(max-width:900px){
+
+
+  body::before{
+
+    /*
+      Keeps the visual balance when the
+      viewport becomes narrower.
+    */
+
+    background-position:
+      52% center;
+
+  }
+
+
+  .page-shell{
+
+    width:
+      min(
+        calc(100% - 32px),
+        760px
+      );
+
+  }
+
+
+}
+
+
+/* =========================================
    MOBILE
    ========================================= */
 
 @media
 (max-width:700px){
+
+
+  body::before{
+
+    /*
+      The image remains fixed.
+      We simply shift the crop slightly
+      so the mountain composition remains
+      attractive on portrait screens.
+    */
+
+    inset:-2%;
+
+    background-position:
+      53% center;
+
+    transform:
+      scale(1.035);
+
+  }
+
+
+  body::after{
+
+    /*
+      Slightly stronger veil improves
+      readability on narrow screens.
+    */
+
+    background:
+
+      linear-gradient(
+        180deg,
+        rgba(248,244,237,.08),
+        rgba(248,244,237,.17)
+      ),
+
+      radial-gradient(
+        circle at 50% 25%,
+        rgba(255,255,255,.20),
+        transparent 46%
+      );
+
+  }
 
 
   .page-shell{
@@ -1477,7 +1705,7 @@ textarea{
 
     margin:
       0 0
-      34px;
+      36px;
 
   }
 
@@ -1509,8 +1737,13 @@ textarea{
     min-width:
       150px;
 
+    background:
+      rgba(255,252,247,.82);
+
   }
 
+
+  /* Invitation */
 
   .invitation-frame{
 
@@ -1518,10 +1751,25 @@ textarea{
       calc(100% - 24px);
 
     padding:
-      8px;
+      9px;
 
     border-radius:
-      18px;
+      20px;
+
+    background:
+      rgba(255,252,247,.52);
+
+    box-shadow:
+      0 16px 38px
+      rgba(70,48,34,.07),
+      0 26px 70px
+      rgba(70,48,34,.08);
+
+    -webkit-backdrop-filter:
+      blur(10px);
+
+    backdrop-filter:
+      blur(10px);
 
   }
 
@@ -1529,7 +1777,7 @@ textarea{
   .invite-image{
 
     border-radius:
-      12px;
+      13px;
 
   }
 
@@ -1537,25 +1785,66 @@ textarea{
   /*
     IMPORTANT:
 
-    The three invitation labels use exactly
-    the same percentage coordinates on
-    mobile and desktop.
+    Do not add mobile-specific top values
+    for ceremony/address/city.
 
-    Do NOT add different top values here.
+    Their percentages are relative to the
+    invitation image itself and therefore
+    stay consistent at every size.
   */
 
 
+  /* RSVP */
+
   .rsvp-panel{
 
-    margin-top:
-      26px;
+    width:
+      calc(100% - 24px);
+
+    margin:
+      28px auto 0;
 
     padding:
-      38px
+      40px
       20px;
 
     border-radius:
-      0;
+      22px;
+
+    background:
+      rgba(252,249,244,.83);
+
+    box-shadow:
+      0 18px 42px
+      rgba(70,48,34,.07),
+      0 28px 74px
+      rgba(70,48,34,.08);
+
+    -webkit-backdrop-filter:
+      blur(11px);
+
+    backdrop-filter:
+      blur(11px);
+
+  }
+
+
+  .panel-title{
+
+    font-size:
+      clamp(
+        40px,
+        12vw,
+        52px
+      );
+
+  }
+
+
+  .panel-sub{
+
+    font-size:
+      20px;
 
   }
 
@@ -1576,6 +1865,103 @@ textarea{
   }
 
 
+  .field > label{
+
+    font-size:
+      21px;
+
+  }
+
+
+  /* Confirmation ducks */
+
+  .done-symbol img{
+
+    width:
+      min(
+        250px,
+        76%
+      );
+
+  }
+
+
+  .done p{
+
+    font-size:
+      20px;
+
+  }
+
+
+}
+
+
+/* =========================================
+   SMALL PHONES
+   ========================================= */
+
+@media
+(max-width:420px){
+
+
+  body::before{
+
+    background-position:
+      55% center;
+
+  }
+
+
+  .invite-live-line{
+
+    max-width:
+      90%;
+
+    padding:
+      .30em
+      .66em;
+
+  }
+
+
+  .rsvp-panel{
+
+    padding:
+      36px
+      18px;
+
+  }
+
+
+  .panel-title{
+
+    font-size:
+      clamp(
+        38px,
+        11.5vw,
+        47px
+      );
+
+  }
+
+
+  .choice label{
+
+    font-size:
+      21px;
+
+  }
+
+
+  .send{
+
+    font-size:
+      23px;
+
+  }
+
+
 }
 
 
@@ -1587,14 +1973,120 @@ textarea{
 (max-width:360px){
 
 
+  .site-header{
+
+    padding-left:
+      12px;
+
+    padding-right:
+      12px;
+
+  }
+
+
+  .invitation-frame{
+
+    width:
+      calc(100% - 16px);
+
+  }
+
+
   .invite-live-line{
 
-    padding:
-      .30em
-      .72em;
-
     max-width:
-      88%;
+      92%;
+
+    padding:
+      .27em
+      .52em;
+
+  }
+
+
+  .rsvp-panel{
+
+    width:
+      calc(100% - 16px);
+
+    padding:
+      32px
+      15px;
+
+  }
+
+
+  .field input,
+  .field select,
+  .field textarea{
+
+    padding:
+      13px
+      13px;
+
+  }
+
+
+}
+
+
+/* =========================================
+   LARGE DESKTOP / WIDESCREEN
+   ========================================= */
+
+@media
+(min-width:1400px){
+
+
+  body::before{
+
+    /*
+      Keeps enough of the panoramic landscape
+      visible on ultrawide displays.
+    */
+
+    background-size:
+      cover;
+
+    background-position:
+      center 48%;
+
+  }
+
+
+  .page-shell{
+
+    margin-top:
+      36px;
+
+  }
+
+
+}
+
+
+/* =========================================
+   TOUCH DEVICES
+   ========================================= */
+
+/*
+  Don't use hover movement on devices where
+  hover does not really exist.
+*/
+
+@media
+(hover:none){
+
+
+  .send:hover:not(:disabled){
+
+    transform:none;
+
+    filter:none;
+
+    box-shadow:
+      0 14px 30px
+      rgba(184,106,84,.17);
 
   }
 
@@ -1610,15 +2102,20 @@ textarea{
 (prefers-reduced-motion:reduce){
 
 
+  html{
+
+    scroll-behavior:auto;
+
+  }
+
+
   *,
   *::before,
   *::after{
 
-    transition:
-      none !important;
+    transition:none !important;
 
-    scroll-behavior:
-      auto !important;
+    animation:none !important;
 
   }
 
