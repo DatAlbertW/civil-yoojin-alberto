@@ -465,11 +465,7 @@ textarea{
 
 
   box-shadow:
-    0 1px 5px
-    rgba(70,48,34,.035),
-    0 0 7px
-    3px
-    rgba(248,239,222,.55);
+    0 1px 3px rgba(70,48,34,.03);
 
 
   font-family:
