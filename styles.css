@@ -545,7 +545,7 @@ textarea{
   */
 
   font-size:
-    17px;
+    19px;
 
 }
 
@@ -561,7 +561,7 @@ textarea{
 
 
   font-size:
-    16px;
+    18px;
 
 }
 
@@ -589,9 +589,9 @@ textarea{
 
     font-size:
       clamp(
-        11px,
-        2.85cqw,
-        18px
+        12px,
+        3.15cqw,
+        20px
       );
 
   }
@@ -601,9 +601,9 @@ textarea{
 
     font-size:
       clamp(
-        11px,
-        2.65cqw,
-        17px
+        12px,
+        2.95cqw,
+        19px
       );
 
   }
@@ -1573,8 +1573,8 @@ textarea{
   .invite-live-line{
 
     padding:
-      .26em
-      .48em;
+      .30em
+      1.05em;
 
   }
 
