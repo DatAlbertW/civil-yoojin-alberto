@@ -355,26 +355,15 @@ textarea{
 /* =========================================
    INVITATION ART
 
-   THIS IS THE IMPORTANT NEW CONTAINER
+   Coordinates of the translated information
+   are relative to the invitation itself.
    ========================================= */
 
 .invitation-art{
 
-  /*
-    All overlay coordinates are now
-    relative to the actual invitation.
-  */
-
   position:relative;
 
   width:100%;
-
-
-  /*
-    Allows font size to respond to
-    the width of THIS invitation,
-    rather than the browser window.
-  */
 
   container-type:
     inline-size;
@@ -401,29 +390,14 @@ textarea{
 
 
 /* =========================================
-   TRANSLATED TEXT OVER IMAGE
+   INVITATION LIVE TEXT
    ========================================= */
 
 .invite-live-line{
 
   position:absolute;
 
-
-  /*
-    Always centered on the invitation.
-  */
-
   left:50%;
-
-
-  /*
-    Position from center of label rather
-    than from its upper-left corner.
-
-    This is important when Spanish,
-    English and Korean have different
-    text dimensions.
-  */
 
   transform:
     translate(
@@ -433,25 +407,32 @@ textarea{
 
 
   /*
-    Rectangle automatically follows
-    text width.
+    Rectangle adapts to text rather
+    than using a fixed width.
   */
 
   width:
     max-content;
 
   max-width:
-    78%;
-
-
-  padding:
-    .30em
-    .62em;
+    84%;
 
 
   /*
-    Keep the ceremony line on one line.
+    Slightly more horizontal breathing room.
   */
+
+  padding:
+    .35em
+    1em;
+
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
 
   white-space:
     nowrap;
@@ -461,32 +442,34 @@ textarea{
 
 
   color:
-    #4b3121;
+    #493124;
 
 
   /*
-    Fully opaque cream.
-    This hides the original printed
-    wording underneath.
+    Since the new invitation image contains
+    no text underneath, this can now be
+    slightly softer and more natural.
   */
 
   background:
-    #f8efde;
+    rgba(
+      248,
+      239,
+      222,
+      .96
+    );
 
 
   border-radius:
     2px;
 
 
-  /*
-    Very soft edge so the patch integrates
-    with the watercolor paper.
-  */
-
   box-shadow:
-    0 0 6px
+    0 1px 5px
+    rgba(70,48,34,.035),
+    0 0 7px
     3px
-    rgba(248,239,222,.86);
+    rgba(248,239,222,.55);
 
 
   font-family:
@@ -503,6 +486,10 @@ textarea{
     1;
 
 
+  letter-spacing:
+    .005em;
+
+
   z-index:
     2;
 
@@ -510,8 +497,7 @@ textarea{
 
 
 /*
-  There is no longer a separate pseudo
-  rectangle behind the text.
+  No pseudo-background required.
 */
 
 .invite-live-line::before{
@@ -522,70 +508,100 @@ textarea{
 
 
 /* =========================================
-   CEREMONY POSITION
+   CEREMONY
    ========================================= */
 
 .invite-live-ceremony{
 
   /*
-    This percentage is relative to
-    invitation.png itself.
-
-    Lower percentage = higher.
-    Higher percentage = lower.
+    Slightly lower than previous version.
   */
 
   top:
-    66.75%;
+    67.35%;
 
 
   /*
-    Fallback for browsers without
-    container query units.
+    Fallback size.
   */
 
   font-size:
-    19px;
+    21px;
 
 }
 
 
 /* =========================================
-   CITY POSITION
+   ADDRESS
+   ========================================= */
+
+.invite-live-address{
+
+  /*
+    Exactly between ceremony and city.
+  */
+
+  top:
+    71.05%;
+
+
+  font-size:
+    20px;
+
+}
+
+
+/* =========================================
+   CITY
    ========================================= */
 
 .invite-live-city{
 
   top:
-    74.45%;
+    74.75%;
 
 
   font-size:
-    18px;
+    20px;
 
 }
 
 
 /* =========================================
-   RESPONSIVE TEXT SIZE
+   RESPONSIVE INVITATION TYPOGRAPHY
    ========================================= */
 
 /*
-  1cqw = 1% of invitation-art width.
+  cqw means "container query width".
 
-  Therefore the typography scales
-  according to the invitation itself.
+  The font sizes therefore respond to
+  invitation.png itself rather than the
+  viewport.
 
-  Example:
-  Desktop invitation = large text
-  iPhone invitation = smaller text
-  Tablet = proportional text
+  This keeps the proportions practically
+  identical on:
+  - iPhone
+  - Android
+  - tablet
+  - desktop
 */
 
 @supports (font-size:1cqw){
 
 
   .invite-live-ceremony{
+
+    font-size:
+      clamp(
+        12.5px,
+        3.35cqw,
+        21px
+      );
+
+  }
+
+
+  .invite-live-address{
 
     font-size:
       clamp(
@@ -602,8 +618,8 @@ textarea{
     font-size:
       clamp(
         12px,
-        2.95cqw,
-        19px
+        3.15cqw,
+        20px
       );
 
   }
@@ -1513,12 +1529,11 @@ textarea{
   /*
     IMPORTANT:
 
-    There are deliberately NO different
-    top values here for ceremony/city.
+    The three invitation labels use exactly
+    the same percentage coordinates on
+    mobile and desktop.
 
-    Desktop and mobile use exactly the
-    same coordinates because they are now
-    anchored to invitation-art.
+    Do NOT add different top values here.
   */
 
 
@@ -1564,17 +1579,14 @@ textarea{
 (max-width:360px){
 
 
-  /*
-    Only font size is adjusted if necessary.
-
-    Position stays exactly the same.
-  */
-
   .invite-live-line{
 
     padding:
       .30em
-      1.05em;
+      .72em;
+
+    max-width:
+      88%;
 
   }
 
