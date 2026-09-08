@@ -1293,14 +1293,27 @@ textarea{
 
 .done-symbol{
 
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
   margin-bottom:
-    4px;
+    12px;
 
-  color:
-    var(--terracotta);
+}
 
-  font-size:
-    21px;
+
+.done-symbol img{
+
+  display:block;
+
+  width:
+    min(220px, 62%);
+
+  height:
+    auto;
 
 }
 
